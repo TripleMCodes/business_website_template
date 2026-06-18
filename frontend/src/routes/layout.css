@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@theme {
+    --color-background: #F3EFEC;
+    --color-background-secondary: #EEE7E2;
+  
+    --color-caramel: #A07B63;
+    --color-taupe: #B89F8A;
+    --color-brown: #6F5037;
+    --color-dark: #2B1A11;
+  
+    --color-text-primary: #2B1A11;
+    --color-text-secondary: #6F5037;
+  }
+
+body{
+    background-color: var(--color-background);
+}
