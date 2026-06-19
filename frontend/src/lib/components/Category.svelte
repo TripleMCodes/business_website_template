@@ -34,7 +34,7 @@
 
 </script>
 
-<div class="category-section">
+<div class="category-section m-5">
     <h2 class="text-3xl font-semibold mb-6 text-center m-5">Categories</h2>
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
         {#each categories as category (category.id)}
