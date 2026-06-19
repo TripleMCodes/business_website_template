@@ -2,6 +2,7 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+
 @theme {
     --color-background: #F3EFEC;
     --color-background-secondary: #EEE7E2;
@@ -17,4 +18,5 @@
 
 body{
     background-color: var(--color-background);
+    font-family: 'Inter', sans-serif;
 }

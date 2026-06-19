@@ -1,2 +1,8 @@
-<h1 class="bg-indigo-600">Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+
+</script>
+
+<div class="home">
+    <h1>Welcome to our business website!</h1>
+    <p>We are glad to have you here. Explore our services and feel free to contact us for more information.</p>
+</div>
