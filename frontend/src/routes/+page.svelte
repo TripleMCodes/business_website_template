@@ -1,8 +1,9 @@
 <script>
 
+    import HomeHero from "$lib/components/HomeHero.svelte";
+    import Category from "$lib/components/Category.svelte";
+
 </script>
 
-<div class="home">
-    <h1>Welcome to our business website!</h1>
-    <p>We are glad to have you here. Explore our services and feel free to contact us for more information.</p>
-</div>
+<HomeHero />
+<Category />
