@@ -134,6 +134,14 @@ class business_settings(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
+class Admin(Base):
+    __tablename__ = "admin"
+
+    admin_id = Column(Integer, primary_key=True, autoincrement=True)
+    admin_name = Column(String(150), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class HomepageContent(Base):
     __tablename__ = "homepage_content"
@@ -144,5 +152,4 @@ class HomepageContent(Base):
     hero_section_description = Column(String(255), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-
 
