@@ -3,9 +3,9 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 
 DATABASE_URL = (
-    os.getenv("DATABASE_URL") or
   "postgresql+psycopg2://postgres:1234@localhost:5432/dev_biz_db"
 )
+
 
 engine = create_engine(
     DATABASE_URL,
