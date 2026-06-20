@@ -26,6 +26,7 @@ class Category(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     image_url = Column(String(255), nullable=True)
     products = relationship("Product", back_populates="category")
+    gallery = relationship("gallery", back_populates="category")
 
 class Product(Base):
     __tablename__ = "products"
@@ -93,6 +94,19 @@ class gallery(Base):
     Category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
     category = relationship("Category", back_populates="gallery")
 
+class Featured(Base):
+    __tablename__ = "featured"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(100), nullable=False)
+    description = Column(String(255), nullable=True)
+    image_url = Column(String(255), nullable=False)
+    price = Column(String(50), nullable=False)
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=True)
+    is_active = Column(String(50), nullable=False, default='active')
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    product = relationship("Product", foreign_keys=[product_id])
+
 class Testimonials(Base):
     __tablename__ = "testimonials"
 
@@ -107,12 +121,16 @@ class business_settings(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     business_name = Column(String(100), nullable=False)
+    business_logo = Column(String(255), nullable=True)
     email = Column(String(255), nullable=False)
     phone_number = Column(String(20), nullable=False)
     address = Column(String(255), nullable=False)
     whatsapp_number = Column(String(20), nullable=True)
     facebook_url = Column(String(255), nullable=True)
     instagram_url = Column(String(255), nullable=True)
+    linkedin_url = Column(String(255), nullable=True)
+    x_url = Column(String(255), nullable=True)
+    youtube_url = Column(String(255), nullable=True)
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
@@ -121,10 +139,10 @@ class HomepageContent(Base):
     __tablename__ = "homepage_content"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(100), nullable=False)
-    description = Column(String(255), nullable=False)
     image_url = Column(String(255), nullable=True)
     hero_section_title = Column(String(100), nullable=True)
     hero_section_description = Column(String(255), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+

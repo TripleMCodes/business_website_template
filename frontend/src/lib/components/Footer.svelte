@@ -35,7 +35,7 @@
         <ul class="social-list list-none m-0 p-0 flex flex-row gap-4">
             {#each socialLinks as link}
                 {#if link.isActive}
-                    <li class="social-item"><a href={link.url} class="text-gray-800 hover:text-caramel">
+                    <li class="social-item"><a href={link.url} class="inline-block transition-transform duration-300 hover:scale-110">
                         <img src={link.icon} alt={link.name} class="logo" />
                     </a></li>
                 {/if}
