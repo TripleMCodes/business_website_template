@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+
     interface FeaturedItem {
-        id?: number;
+        id: number;
         title: string;
         description: string;
         imageUrl: string;
@@ -9,6 +11,13 @@
     }
 
     const { featured } = $props<{ featured: FeaturedItem }>();
+
+
+    const handleViewMore = () => {
+        if (!featured.id) return;
+
+        goto(`/product/${featured.id}`);
+    };
 </script>
 
 <div class="featured-card bg-white shadow-md rounded-2xl p-4 flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
@@ -17,6 +26,6 @@
     <p class="text-gray-600 mt-2">{featured.description}</p>
     <p class="text-gray-600 mt-2">{featured.price}</p>
     <div class="view-more-btn mt-4">
-        <button class="bg-caramel text-white py-2 px-4 rounded-md hover:bg-taupe" onclick="window.location.href=`/product/${featured.id}`">View More</button>
+        <button class="bg-caramel text-white py-2 px-4 rounded-md hover:bg-taupe" onclick={handleViewMore}>View More</button>
     </div>
 </div>

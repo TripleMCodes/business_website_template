@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from fastapi.params import Body
 
-from .routers import auth
+from app.routers import auth
 
 app = FastAPI()
 
