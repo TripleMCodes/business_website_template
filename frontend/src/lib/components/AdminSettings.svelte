@@ -7,7 +7,9 @@
         change: string;
         input: string;
         update: string;
-        endpoint: string
+        endpoint: string;
+        bind_var: string;
+        alt: string;
     }
 
     let adminName = $state('');
@@ -23,67 +25,139 @@
     let app_address = $state("");
     let app_whatsapp = $state("");
     let app_fb = $state("");
+    let app_ig = $state("");
+    let app_li = $state("");
+    let app_x = $state("");
+    let app_yt = $state("");
 
     const settingsItem: SettingsItem[] = [
 
         {   
             id: "app-name",
+            // svelte-ignore state_referenced_locally
             change: `Change ${app_type} Name`,
             input: "text",
             update: "Update Name",
-            endpoint: "admin_change_app_name"
+            endpoint: "admin_change_app_name",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_name,
+            alt: "text",
+
         },
         {   
             id: "app-logo",
+            // svelte-ignore state_referenced_locally
             change: `Change ${app_type} Logo`,
-            input: "text",
+            input: "image",
             update: "Update Logo",
-            endpoint: "admin_change_app_logo"
+            endpoint: "admin_change_app_logo",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_logo,
+            alt: "image",
         },
         {   
             id: "app-email",
+            // svelte-ignore state_referenced_locally
             change: `Change ${app_type} Email`,
             input: "email",
             update: "Update Email",
-            endpoint: "admin_change_app_email"
+            endpoint: "admin_change_app_email",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_email,
+            alt: "text",
         },
         {   
             id: "app-contact",
+            // svelte-ignore state_referenced_locally
             change: `Change ${app_type} Phone Contact`,
             input: "tel",
             update: "Update Contact",
-            endpoint: "admin_change_app_phone_contact"
+            endpoint: "admin_change_app_phone_contact",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_number,
+            alt: "text",
         },
         {   
             id: "app-address",
+            // svelte-ignore state_referenced_locally
             change: `Change ${app_type} Address`,
             input: "text",
             update: "Update Address",
-            endpoint: "admin_change_app_address"
+            endpoint: "admin_change_app_address",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_address,
+            alt: "text",
         },
         {   
             id: "app-wa-contact",
+            // svelte-ignore state_referenced_locally
             change: `Change ${app_type} Whatsapp Contact`,
             input: "tel",
             update: "Update Contact",
-            endpoint: "admin_change_app_wa_contact"
+            endpoint: "admin_change_app_wa_contact",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_whatsapp,
+            alt: "text",
         },
         {   
             id: "app-fb",
+            // svelte-ignore state_referenced_locally
             change: `Change ${app_type} Facebook Page Url`,
             input: "text",
             update: "Update URL",
-            endpoint: "admin_change_app_fb"
+            endpoint: "admin_change_app_fb",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_fb,
+            alt: "text",
         },
         {   
             id: "app-ig",
+            // svelte-ignore state_referenced_locally
             change: `Change ${app_type} Instagramm URL`,
             input: "text",
             update: "Update URL",
-            endpoint: "admin_change_app_wa_contact"
+            endpoint: "admin_change_app_ig_contact",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_ig,
+            alt: "text",
+        },
+        {   
+            id: "app-linkedin",
+            // svelte-ignore state_referenced_locally
+            change: `Change ${app_type} LinkedIn Profile `,
+            input: "text",
+            update: "Update Profile",
+            endpoint: "admin_change_app_linkedin",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_li,
+            alt: "text",
+        },
+        {   
+            id: "app-x",
+            // svelte-ignore state_referenced_locally
+            change: `Change ${app_type} X URL `,
+            input: "text",
+            update: "Update URL",
+            endpoint: "admin_change_app_linkedin",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_x,
+            alt: "text",
+        },
+        {   
+            id: "app-yt",
+            // svelte-ignore state_referenced_locally
+            change: `Change ${app_type} YouTube URL `,
+            input: "text",
+            update: "Update URL",
+            endpoint: "admin_change_app_yt",
+            // svelte-ignore state_referenced_locally
+            bind_var: app_yt,
+            alt: "text",
         },
 
     ]
+
+    const {settings = settingsItem} = $props<any>();
 
 
 
@@ -207,7 +281,11 @@
             <p class="text-[#6F5037] text-sm">Update {app_type} Information</p>
         </div>
 
-        <form method="POST" action="?/admin_change_app_name" class="space-y-4">
+        {#each settings as setting (setting.id)}
+            <AppSetting setting={setting} />
+        {/each}
+
+        <!-- <form method="POST" action="?/admin_change_app_name" class="space-y-4">
             <div>
                 <label for="app-name" class="block text-sm font-semibold text-[#2B1A11] mb-2">
                     Change {app_type} Name
@@ -367,7 +445,7 @@
                 >
                     Update URL
             </button>
-        </form>
+        </form> -->
 
 
 
