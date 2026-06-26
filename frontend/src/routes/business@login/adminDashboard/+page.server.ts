@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { fail } from '@sveltejs/kit';
 import { get_url } from '$lib/url_vars/url_vars.js';
+import { isAwaitExpression } from 'typescript';
+import { almostEquals } from 'chart.js/helpers';
 
 function backendHeaders(cookies) {
   const accessToken = cookies.get('access_token');
@@ -21,6 +23,45 @@ function backendHeaders(cookies) {
     Cookie: cookieHeader,
   };
 }
+
+
+
+async function updateAppSetting(
+  cookies: Cookies,
+  formFieldId: string,
+  payloadKey: string,
+  formData: FormData
+) {
+  const value = formData.get(formFieldId);
+
+  if (!value) {
+    return fail(400, { message: "Value required." });
+  }
+
+  const payload = {
+    [payloadKey]: value,
+  };
+
+  const res = await fetch(`${get_url()}/api/app/settings/app/update`, {
+    method: 'PATCH',
+    headers: backendHeaders(cookies),
+    body: JSON.stringify(payload),
+  });
+
+  const data = await res.json().catch(() => {
+    console.log(`Error - couldn't update ${payloadKey}`);
+    return null;
+  });
+
+  if (!res.ok) {
+    console.log(`Error - couldn't update ${payloadKey}`);
+    return fail(res.status, { message: data?.detail ?? `Couldn't update ${payloadKey}.` });
+  }
+
+  return { message: data?.business_name ? `Updated successfully.` : data?.message };
+}
+
+
 
 // export const load = async ({ fetch, cookies }) => {
 //   try {
@@ -114,6 +155,62 @@ export const actions = {
   admin_change_api: async ({ request, cookies }) => {
     return forwardRequest({ request, cookies, path: '/api/admin/settings/api' });
   },
+  
+  admin_change_app_name: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-name', 'business_name', formData);
+  },
+
+  admin_change_app_logo: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-logo', 'business_logo', formData);
+  },
+
+  admin_change_app_email: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-email', 'email', formData);
+  },
+
+  admin_change_app_phone_contact: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-contact', 'phone_number', formData);
+  },
+
+  admin_change_app_address: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-address', 'address', formData);
+  },
+
+  admin_change_app_wa_contact: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-wa-contact', 'whatsapp_number', formData);
+  },
+
+  admin_change_app_fb: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-fb', 'facebook_url', formData);
+  },
+
+  admin_change_app_ig_contact: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-ig', 'instagram_url', formData);
+  },
+
+  admin_change_app_linkedin: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-linkedin', 'linkedin_url', formData);
+  },
+
+  admin_change_app_x: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-x', 'x_url', formData);
+  },
+
+  admin_change_app_yt: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    return updateAppSetting(cookies, 'app-yt', 'youtube_url', formData);
+  },
+
 
 //   admin_change_user_password: async ({ request, cookies }) => {
 //     const formData = await request.formData();
