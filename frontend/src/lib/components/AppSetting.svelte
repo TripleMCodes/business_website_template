@@ -16,7 +16,7 @@
         const { setting } = $props<{ setting: SettingsItem }>();
 </script>
 
-<form method="POST" action="{setting.endpoint}" class="space-y-4">
+<form method="POST" action="?/{setting.endpoint}" class="space-y-4 mt-5">
     <div>
         <label for={setting.id} class="block text-sm font-semibold text-[#2B1A11] mb-2">
            {setting.change}

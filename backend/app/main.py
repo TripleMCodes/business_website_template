@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from fastapi.params import Body
 
 from app.routers import auth
+from app.routers import app_setttings
 
 app = FastAPI()
 
@@ -18,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(app_setttings.router)
 
 @app.get('/')
 async def index():
