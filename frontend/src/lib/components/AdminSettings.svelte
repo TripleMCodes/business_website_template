@@ -8,8 +8,8 @@
         input: string;
         update: string;
         endpoint: string;
-        bind_var: string;
-        alt: string;
+        bind_var?: string;
+        alt?: string;
     }
 
     let adminName = $state('');
@@ -172,6 +172,8 @@
     <div class="mb-8">
         <h1 class="text-4xl font-bold text-[#2B1A11] mb-2">Admin Settings</h1>
         <p class="text-[#6F5037]">Manage your admin account and security</p>
+
+        
     </div>
 
     <!-- Success/Error Message -->
@@ -284,8 +286,6 @@
         {#each settings as setting (setting.id)}
             <AppSetting setting={setting} />
         {/each}
-
-
 
     </section>
 

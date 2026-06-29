@@ -6,8 +6,8 @@
             input: string;
             update: string;
             endpoint: string;
-            bind_var: string;
-            alt: string
+            bind_var?: string;
+            alt?: string
         }
 
     let app_type = $state("")
