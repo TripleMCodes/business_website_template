@@ -9,7 +9,7 @@ function backendHeaders(cookies: { get: (arg0: string) => any; }) {
     let cookieHeader = '';
 
     if (accessToken) {
-        cookieHeader + `access_token=${accessToken}`;
+        cookieHeader += `access_token=${accessToken}`;
     }
 
     if (refreshToken){
@@ -18,7 +18,7 @@ function backendHeaders(cookies: { get: (arg0: string) => any; }) {
     }
 
     return {
-        'Content-Type': 'application',
+        'Content-Type': 'application/json',
         Cookie: cookieHeader,
     }
 }
@@ -57,7 +57,7 @@ async function updateHomePage(
         return fail(res.status, { message: data?.detail ?? `Couldn't update ${payloadKey}.` }); 
     }
     
-    return { message: data?.business_name ? `Updated successfully.` : data?.message };
+    return {message: `Updated successfully.`};
 }
 
 
@@ -65,17 +65,17 @@ async function updateHomePage(
 export const actions = {
     admin_update_bg_img: async ({request, cookies}) => {
         const formData = await request.formData();
-        return updateHomePage(cookies, "background-image", "background-image", formData);
+        return updateHomePage(cookies, "background-image", "image_url", formData);
     },
 
     admin_update_hero_title: async ({request, cookies}) => {
         const formData = await request.formData();
-        return updateHomePage(cookies, "hero-sec-title", "title", formData);
+        return updateHomePage(cookies, "hero-sec-title", "hero_section_title", formData);
     },
 
     admin_update_hero_description: async ({request, cookies}) => {
         const formData = await request.formData();
-        return updateHomePage(cookies, "hero-sec-desc", "description", formData);
+        return updateHomePage(cookies, "hero-sec-desc", "hero_section_description", formData);
     }, 
 
     // admin_update_hero_description: async ({request, cookies}) => {
