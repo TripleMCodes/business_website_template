@@ -19,21 +19,21 @@
             id: "background-image",
             change: "Update background image",
             input: "image",
-            update: "Update",
+            update: "Background Image",
             endpoint: "admin_update_bg_img"
         },
         {
             id: "hero-sec-title",
             change: "Update Hero Section Title",
             input: "Text",
-            update: "Update",
+            update: "Title",
             endpoint: "admin_update_hero_title"
         },
         {
             id: "hero-sec-desc",
             change: "Update Hero Section Description",
             input: "Text",
-            update: "Update",
+            update: "Description",
             endpoint: "admin_update_hero_description"
         },
 
