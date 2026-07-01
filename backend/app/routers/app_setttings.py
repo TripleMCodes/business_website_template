@@ -26,6 +26,12 @@ class BusinessSettingsUpdate(BaseModel):
     x_url: Optional[str] = Field(None, max_length=255)
     youtube_url: Optional[str] = Field(None, max_length=255)
 
+class HomeHeroSettings(BaseModel):
+    image_url: Optional[str] = Field(None, max_length=255)
+    hero_section_title: Optional[str] = Field(None, max_length=255)
+    hero_section_description: Optional[str] = Field(None, max_length=255)
+ 
+
 DEFAULTS = {
     "business_name": "Unnamed Business",
     "business_logo": None,
@@ -40,6 +46,12 @@ DEFAULTS = {
     "youtube_url": None,
 }
 
+HOME_DEFAULTS = {
+    "image_url": "",
+    "hero_section_title": "Crafting beautiful spaces with thoughtful design and natural materials.",
+    "hero_section_description": "Interior styling, landscape accents, and bespoke home details that feel warm, elegant, and timeless.",
+}
+
 
 
 @router.get('/api/app/settings')
@@ -49,34 +61,6 @@ def app_settings(
 ):
     app_settings_data = db.query(models.business_settings).all()
     return app_settings_data
-
-
-# @router.patch("/api/app/settings/app/name")
-# def update_business_name(
-#     payload: BusinessNameUpdate,
-#     db: Session = Depends(get_db),
-# ):
-#     settings = db.query(models.business_settings).first()
-
-#     if settings is None:
-#         # No row yet — create one with the new name and safe defaults
-#         # for the other required (non-nullable) fields.
-#         settings = models.business_settings(
-#             business_name=payload.business_name,
-#             email="not-set@example.com",
-#             phone_number="0000000000",
-#             address="Not set",
-#         )
-#         db.add(settings)
-#     else:
-#         # Row exists — just update the name.
-#         settings.business_name = payload.business_name
-
-#     db.commit()
-#     db.refresh(settings)
-
-#     return settings
-
 
 
 @router.patch("/api/app/settings/app/update")
@@ -100,5 +84,22 @@ def update_business_settings(
     db.refresh(settings)
     return settings
 
+@router.patch("/api/app/settings/app/home")
+def update_home_hero(
+    payload: HomeHeroSettings,
+    db: Session = Depends(get_db)
+):
+    home_hero_settings = db.query(models.HomepageContent).first()
+    incoming = payload.model_dump(exclude_unset=True)
 
+    if home_hero_settings is None:
+        data = {**HOME_DEFAULTS, **incoming}
+        home_hero_settings = models.HomepageContent(**data)
+        db.add(home_hero_settings)
+    else:
+        for field, value in incoming.items():
+            setattr(home_hero_settings, field, value)
 
+    db.commit()
+    db.refresh(home_hero_settings)
+    return home_hero_settings
