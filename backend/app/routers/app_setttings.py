@@ -84,6 +84,19 @@ def update_business_settings(
     db.refresh(settings)
     return settings
 
+@router.get("/api/app/settings/app/home")
+def get_home_hero(db: Session = Depends(get_db)):
+    home_hero_settings = db.query(models.HomepageContent).first()
+    
+    if home_hero_settings is None:
+        home_hero_settings = models.HomepageContent(**HOME_DEFAULTS)
+        db.add(home_hero_settings)
+        db.commit()
+        db.refresh(home_hero_settings)
+    
+    return home_hero_settings
+
+
 @router.patch("/api/app/settings/app/home")
 def update_home_hero(
     payload: HomeHeroSettings,
