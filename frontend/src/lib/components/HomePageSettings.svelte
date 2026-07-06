@@ -39,7 +39,7 @@
 
     ]
 
-    const {settings = settingsItem} = $props<any>();
+    const {settings = settingsItem, homepageContent} = $props<any>();
     
 </script>
 
@@ -60,6 +60,6 @@
         {/each}
     </section>
 
-    <HomeHero />
+    <HomeHero {homepageContent}/>
     
 </section>
