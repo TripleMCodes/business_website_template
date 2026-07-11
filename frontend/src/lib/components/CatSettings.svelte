@@ -3,6 +3,7 @@
     import AppSetting from "./AppSetting.svelte";
     import CurrentCat from "./CurrentCat.svelte";
     import CatsDisplay from "$lib/components/Category.svelte";
+    import AddCat from "./AddCat.svelte";
     interface Categories {
         name:string,
         desc:string,
@@ -49,6 +50,10 @@
         <h2 class="text-2xl font-bold text-center m-5">Current Categories</h2>
         <CurrentCat {cats}/>
     </section>
+
+
+    <AddCat />
+
 
     <h2 class="text-2xl font-bold text-center m-5">All Categories Display</h2>
 
