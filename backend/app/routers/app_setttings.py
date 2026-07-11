@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 from app.database import engine, get_db
 from .. import models, schemas, utils, oauth2
-from typing import Optional
+from typing import Optional, Any
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -30,7 +30,11 @@ class HomeHeroSettings(BaseModel):
     image_url: Optional[str] = Field(None, max_length=255)
     hero_section_title: Optional[str] = Field(None, max_length=255)
     hero_section_description: Optional[str] = Field(None, max_length=255)
- 
+
+class AddCategory(BaseModel):
+    name: str = Field(None, max_length=50)
+    desc: str = Field(None, max_length=255)
+    image: Optional[Any] = Field(None)
 
 DEFAULTS = {
     "business_name": "Unnamed Business",
@@ -51,6 +55,7 @@ HOME_DEFAULTS = {
     "hero_section_title": "Crafting beautiful spaces with thoughtful design and natural materials.",
     "hero_section_description": "Interior styling, landscape accents, and bespoke home details that feel warm, elegant, and timeless.",
 }
+
 
 
 
@@ -119,3 +124,19 @@ def update_home_hero(
     db.commit()
     db.refresh(home_hero_settings)
     return home_hero_settings
+
+@router.post("/api/app/settings/add/home/category")
+def add_category(
+    payload: AddCategory,
+    current_admin: models.Admin = Depends(oauth2.get_current_admin),
+    db: Session = Depends(get_db),
+):
+    incoming = payload.model_dump(exclude_unset=True)
+    print(f"Incomig is: {incoming}")
+    categories = models.Category(**incoming)
+    db.add(categories)
+    db.commit()
+    db.refresh(categories)
+    return categories
+
+

@@ -88,6 +88,66 @@ async function updateHomePage(
 }
 
 
+async function addCategory(
+    cookies: Cookies,
+    formFieldId: string,
+    payloadKey: string,
+    formData: FormData
+) {
+    // const value = formData.get(formFieldId);
+    const name = formData.get('category-name');
+    const desc = formData.get('category-desc');
+    const image = formData.get('category-image');
+
+    // check if all required fields are present
+    if (!name || !desc) {
+        return fail(400, { message: "All fields are required." });
+    }
+
+    // // check if file is an image
+    // let imageExtensions = [ ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".svg" ];
+    // if (image instanceof File && !imageExtensions.some(ext => image.name.endsWith(ext))) {
+    //     return fail(400, { message: "Uploaded file must be an image." });
+    // }
+
+
+    // create payload
+    const payload = {
+        [payloadKey]: {
+            name: name,
+            description: desc,
+            image: image
+        }
+    };
+
+
+    // if (!value) {
+    //     return fail(400, { message: "Value required." });
+    // }
+
+    // const payload = {
+    //     [payloadKey]: value,
+    // };
+
+    const res = await fetch(`${get_url()}/api/app/settings/add/home/category`, {
+        method: 'POST',
+        headers: backendHeaders(cookies),
+        body: JSON.stringify(payload),
+    });
+
+    const data = await res.json().catch(() => {
+        console.log(`Error - couldn't add category`);
+        return null;
+    });
+
+    if (!res.ok) {
+        console.log(`Error - couldn't add category`);
+        return fail(res.status, { message: data?.detail ?? `Couldn't add category.` });
+    }
+
+    return { message: `Category added successfully.` };
+}
+
 
 export const actions = {
     admin_update_bg_img: async ({request, cookies}) => {
@@ -104,6 +164,12 @@ export const actions = {
         const formData = await request.formData();
         return updateHomePage(cookies, "hero-sec-desc", "hero_section_description", formData);
     }, 
+    add_category: async ({request, cookies}) => {
+        const formData = await request.formData();
+        return addCategory(cookies, "add-category", "category", formData);
+    }
+
+
 
     // admin_update_hero_description: async ({request, cookies}) => {
     //     const formData = await request.formData();
