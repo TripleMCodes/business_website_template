@@ -85,7 +85,9 @@ def update_business_settings(
     return settings
 
 @router.get("/api/app/settings/app/home")
-def get_home_hero(db: Session = Depends(get_db)):
+def get_home_hero(
+    db: Session = Depends(get_db),
+    ):
     home_hero_settings = db.query(models.HomepageContent).first()
     
     if home_hero_settings is None:
@@ -100,6 +102,7 @@ def get_home_hero(db: Session = Depends(get_db)):
 @router.patch("/api/app/settings/app/home")
 def update_home_hero(
     payload: HomeHeroSettings,
+    current_admin: models.Admin = Depends(oauth2.get_current_admin),
     db: Session = Depends(get_db)
 ):
     home_hero_settings = db.query(models.HomepageContent).first()

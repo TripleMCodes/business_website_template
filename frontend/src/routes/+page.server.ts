@@ -1,5 +1,7 @@
 import { get_url } from "$lib/url_vars/url_vars";
 
+
+
 export async function load({ fetch }) {
 	try {
 		const response = await fetch(`${get_url()}/api/app/settings/app/home`);

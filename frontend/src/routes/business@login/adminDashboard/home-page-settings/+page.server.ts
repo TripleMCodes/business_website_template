@@ -3,9 +3,34 @@ import { get_url } from '$lib/url_vars/url_vars';
 import { isAwaitExpression } from 'typescript';
 
 
-export async function load({ fetch }){
+
+function backendHeaders(cookies: { get: (arg0: string) => any; }) {
+    const accessToken = cookies.get('access_token');
+    const refreshToken = cookies.get('refresh_token');
+    
+    let cookieHeader = '';
+    
+    if (accessToken) {
+        cookieHeader += `access_token=${accessToken}`;
+    }
+    
+    if (refreshToken){
+        if (cookieHeader.length > 0) cookieHeader += '; ';
+        cookieHeader += `refresh_token=${refreshToken}`;
+    }
+    
+    return {
+        'Content-Type': 'application/json',
+        Cookie: cookieHeader,
+    }
+}
+
+export async function load({ fetch, cookies }){
     try{
-        const response = await fetch(`${get_url()}/api/app/settings/app/home`);
+        const response = await fetch(`${get_url()}/api/app/settings/app/home`,{
+            method: 'GET',
+            headers: backendHeaders(cookies),
+        });
         if (!response.ok){
             throw new Error("Failed to homepage content");
         }
@@ -16,33 +41,12 @@ export async function load({ fetch }){
     catch (error){
         console.error("Error loading homepage content:", error);
         return {
-			homepageContent: {
-				image_url: '/bg-img2.jpg',
-				hero_section_title: 'Crafting beautiful spaces with thoughtful design and natural materials.',
-				hero_section_description: 'Interior styling, landscape accents, and bespoke home details that feel warm, elegant, and timeless.'
-			}
-		};
-    }
-}
-
-function backendHeaders(cookies: { get: (arg0: string) => any; }) {
-    const accessToken = cookies.get('access_token');
-    const refreshToken = cookies.get('refresh_token');
-
-    let cookieHeader = '';
-
-    if (accessToken) {
-        cookieHeader += `access_token=${accessToken}`;
-    }
-
-    if (refreshToken){
-        if (cookieHeader.length > 0) cookieHeader += '; ';
-        cookieHeader += `refresh_token=${refreshToken}`;
-    }
-
-    return {
-        'Content-Type': 'application/json',
-        Cookie: cookieHeader,
+            homepageContent: {
+                image_url: '/bg-img2.jpg',
+                hero_section_title: 'Crafting beautiful spaces with thoughtful design and natural materials.',
+                hero_section_description: 'Interior styling, landscape accents, and bespoke home details that feel warm, elegant, and timeless.'
+            }
+        };
     }
 }
 
